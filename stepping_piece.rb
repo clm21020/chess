@@ -25,6 +25,7 @@ class Knight < SteppingPiece
 
   def initialize(color, pos, board)
     super
+    @picture = color == "black" ? "♞" : "♘"
   end
 
   def move_dirs
@@ -38,6 +39,7 @@ class King < SteppingPiece
 
   def initialize(color, pos, board)
     super
+    @picture = color == "black" ? "♚" : "♔"
   end
 
   def move_dirs

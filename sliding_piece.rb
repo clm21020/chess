@@ -43,6 +43,7 @@ end
 class Bishop < SlidingPiece
   def initialize(color, pos, board)
     super
+    @picture = color == "black" ? "♝" : "♗"
   end
 
   def move_dirs
@@ -54,6 +55,7 @@ end
 class Rook < SlidingPiece
   def initialize(color, pos, board)
     super
+    @picture = color == "black" ? "♜" : "♖"
   end
 
   def move_dirs
@@ -64,6 +66,7 @@ end
 class Queen < SlidingPiece
   def initialize(color, pos, board)
     super
+    @picture = color == "black" ? "♛" : "♕"
   end
 
   def move_dirs

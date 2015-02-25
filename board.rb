@@ -14,11 +14,11 @@ class Board
   def place_pieces
     place_non_pawns("black")
     place_non_pawns("white")
+    place_pawns("black")
+    place_pawns("white")
 
     # self[2, 4] = Rook.new("black", [2, 4], self)
     # self[6, 4] = Rook.new("white", [6, 4], self)
-    # place_pawns("black")
-    # place_pawns("white")
   end
 
   def place_non_pawns(color)
@@ -101,6 +101,20 @@ class Board
     end
 
     new_board
+  end
+
+  def display
+    @grid.each_with_index do |row, idx|
+      row_string = ""
+      row.each_with_index do |piece, idx2|
+        row_string += piece.nil? ? "    " : " #{piece.picture}  "
+        row_string += "|" if idx2 < (SIZE - 1)
+      end
+      puts row_string
+      puts ("-" * 40) if idx < (SIZE - 1)
+    end
+
+    nil
   end
 
   def piece_at(pos)
