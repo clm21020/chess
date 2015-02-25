@@ -10,6 +10,10 @@ class Piece
     raise "Not implemented"
   end
 
+  def valid_moves
+    moves.select { |pos| !move_into_check?(pos) }
+  end
+
   def my_teammate(pos)
     @color == @board.color_of_piece_at(pos)
     # debugger
