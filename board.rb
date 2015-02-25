@@ -6,9 +6,9 @@ class Board
   SIZE ||= 8
   NON_PAWNS ||= [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
 
-  def initialize
+  def initialize(all_nils = false)
     @grid = Array.new(SIZE) { Array.new(SIZE) }
-    place_pieces
+    place_pieces unless all_nils
   end
 
   def place_pieces
@@ -72,9 +72,18 @@ class Board
     self[start_pos[0], start_pos[1]] = nil
     self[end_pos[0], end_pos[1]] = piece
     piece.pos = end_pos
-    # This should update the 2d grid and also the moved piece's position.
-    # You'll want to raise an exception if: (a) there is no piece at start or
-    # (b) the piece cannot move to end_pos.
+  end
+
+  def deep_dup
+    new_board = Board.new(true)
+    all_pieces = find_team("white") + find_team("black")
+    all_pieces.each do |piece|
+      x = piece.pos[0]
+      y = piece.pos[1]
+      new_board[x,y] = piece.class.new(piece.color, piece.pos, new_board)
+    end
+
+    new_board
   end
 
   def piece_at(pos)

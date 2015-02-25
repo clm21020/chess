@@ -24,4 +24,10 @@ class Piece
 
     opponent_color == @board.color_of_piece_at(pos)
   end
+
+  def move_into_check?(pos)
+    # Duplicate the Board and perform the move.
+    # Look to see if the player is in check after the move (Board#in_check?).
+    # 
+  end
 end
