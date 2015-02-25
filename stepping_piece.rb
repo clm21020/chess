@@ -12,7 +12,7 @@ class SteppingPiece < Piece
       x = @pos[0] + offset[0]
       y = @pos[1] + offset[1]
 
-      all_possible_moves << [x, y] if @board.on_board?([x, y])
+      all_possible_moves << [x, y] if @board.on_board?([x, y]) && !my_teammate([x, y])
     end
 
     all_possible_moves

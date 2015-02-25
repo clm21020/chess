@@ -1,4 +1,6 @@
 class Piece
+  attr_reader :color
+
   def initialize(color, pos, board)
     @color, @pos, @board = color, pos, board
   end
@@ -9,6 +11,7 @@ class Piece
 
   def my_teammate(pos)
     @color == @board.color_of_piece_at(pos)
+    # debugger
   end
 
   def other_team(pos)

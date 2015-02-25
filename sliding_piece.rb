@@ -1,4 +1,5 @@
 require_relative 'piece.rb'
+require 'byebug'
 
 class SlidingPiece < Piece
   DIRS = {
@@ -16,15 +17,17 @@ class SlidingPiece < Piece
     move_dirs.each do |dir|
       DIRS[dir].each do |offset|
         i = 1
-        x = @pos[0]
-        y = @pos[1]
-        while @board.on_board?([x, y]) && my_teammate([x, y])
-          all_possible_moves << [x, y] unless @pos == [x, y]
+        x = @pos[0] + offset[0]
+        y = @pos[1] + offset[1]
+        # debugger
+        while @board.on_board?([x, y])
+          break if my_teammate([x, y])
+          all_possible_moves << [x, y] #unless @pos == [x, y]
           break if other_team([x, y])
 
+          i += 1
           x = @pos[0] + (offset[0] * i)
           y = @pos[1] + (offset[1] * i)
-          i += 1
         end
       end
     end

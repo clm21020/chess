@@ -4,35 +4,25 @@ require_relative 'pawn.rb'
 
 class Board
   SIZE ||= 8
+  NON_PAWNS ||= [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
 
   def initialize
-    @board = Array.new(SIZE) { Array.new(SIZE) }
+    @grid = Array.new(SIZE) { Array.new(SIZE) }
     place_pieces
   end
 
   def place_pieces
     place_non_pawns("black")
     place_non_pawns("white")
-    place_pawns("black")
-    place_pawns("white")
+    # place_pawns("black")
+    # place_pawns("white")
   end
 
   def place_non_pawns(color)
     x = color == "black" ? 0 : (SIZE - 1)
 
-    (0...SIZE).each do |i|
-      case i
-      when 0 || 7
-        self[x, i] = Rook.new(color, [x, i], self)
-      when 1 || 6
-        self[x, i] = Knight.new(color, [x, i], self)
-      when 2 || 5
-        self[x, i] = Bishop.new(color, [x, i], self)
-      when 3
-        self[x, i] = Queen.new(color, [x, i], self)
-      when 4
-        self[x, i] = King.new(color, [x, i], self)
-      end
+    NON_PAWNS.each_with_index do |val, idx|
+      self[x, idx] = val.new(color, [x, idx], self)
     end
   end
 
@@ -48,6 +38,7 @@ class Board
     # returns whether a player is in check.
     # You can implement this by (1) finding the position of the king on the board then
     # (2) seeing if any of the opposing pieces can move to that position.
+    (0...SIZE)
 
   end
 
@@ -58,11 +49,11 @@ class Board
   end
 
   def [](x, y)
-    @board[x][y]
+    @grid[x][y]
   end
 
   def []=(x, y, piece)
-    @board[x][y] = piece
+    @grid[x][y] = piece
   end
 
   def on_board?(potential_pos)
@@ -70,11 +61,11 @@ class Board
   end
 
   def occupied?(potential_pos)
-    @board
+    @grid
   end
 
   def color_of_piece_at(pos)
-    piece = @board[pos[0]][pos[1]]
+    piece = @grid[pos[0]][pos[1]]
     piece.nil? ? nil : piece.color
   end
 end
