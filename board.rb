@@ -54,16 +54,31 @@ class Board
     end
   end
 
+  def find_team(color)
+    @grid.flatten.compact.select do |piece|
+      piece.color == color
+    end
+  end
+
   def move(start_pos, end_pos)
+    piece = piece_at(start_pos)
+
+    no_piece_error = ArgumentError.new("You don't have a piece there")
+    invalid_move_error = ArgumentError.new("You can't move there!")
+
+    raise no_piece_error if piece.nil?
+    raise invalid_move_error unless piece.moves.include?(end_pos)
+
+    self[start_pos[0], start_pos[1]] = nil
+    self[end_pos[0], end_pos[1]] = piece
+    piece.pos = end_pos
     # This should update the 2d grid and also the moved piece's position.
     # You'll want to raise an exception if: (a) there is no piece at start or
     # (b) the piece cannot move to end_pos.
   end
 
-  def find_team(color)
-    @grid.flatten.compact.select do |piece|
-      piece.color == color
-    end
+  def piece_at(pos)
+    self[pos[0], pos[1]]
   end
 
   def [](x, y)
@@ -83,7 +98,7 @@ class Board
   end
 
   def color_of_piece_at(pos)
-    piece = @grid[pos[0]][pos[1]]
+    piece = piece_at(pos)
     piece.nil? ? nil : piece.color
   end
 
