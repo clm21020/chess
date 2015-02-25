@@ -1,5 +1,6 @@
 require_relative 'sliding_piece.rb'
 require_relative 'stepping_piece.rb'
+require_relative 'pawn.rb'
 
 class Board
   SIZE ||= 8
@@ -12,6 +13,8 @@ class Board
   def place_pieces
     place_non_pawns("black")
     place_non_pawns("white")
+    place_pawns("black")
+    place_pawns("white")
   end
 
   def place_non_pawns(color)
@@ -31,6 +34,14 @@ class Board
         self[x, i] = King.new(color, [x, i], self)
       end
     end
+  end
+
+  def place_pawns(color)
+    x = color == "black" ? 1 : (SIZE - 2)
+    (0...SIZE).each do |i|
+      self[x, i] = Pawn.new(color, [x, i], self)
+    end
+
   end
 
   def in_check?(color)
