@@ -26,8 +26,9 @@ class Piece
   end
 
   def move_into_check?(pos)
-    # Duplicate the Board and perform the move.
-    # Look to see if the player is in check after the move (Board#in_check?).
-    # 
+    dup_board = @board.deep_dup
+
+    dup_board.move(@pos, pos)
+    dup_board.in_check?(@color)
   end
 end
