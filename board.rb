@@ -62,6 +62,13 @@ class Board
 
   def move(start_pos, end_pos)
     piece = piece_at(start_pos)
+    check_error = ArgumentError.new("That move move would put you in check, idiot!")
+    raise check_error unless piece.valid_moves.include?(end_pos)
+    move!(start_pos, end_pos)
+  end
+
+  def move!(start_pos, end_pos)
+    piece = piece_at(start_pos)
 
     no_piece_error = ArgumentError.new("You don't have a piece there")
     invalid_move_error = ArgumentError.new("You can't move there!")
