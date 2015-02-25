@@ -48,6 +48,16 @@ class Board
     false
   end
 
+  def checkmate?(color)
+    return false unless in_check?(color)
+
+    find_team(color).each do |piece|
+      return false unless piece.valid_moves.empty?
+    end
+
+    true
+  end
+
   def find_king(color)
     @grid.flatten.compact.find do |piece|
       piece.class == King && piece.color == color
