@@ -15,10 +15,7 @@ class Board
     place_non_pawns("black")
     place_non_pawns("white")
     place_pawns("black")
-    place_pawns("white")
-
-    # self[2, 4] = Rook.new("black", [2, 4], self)
-    # self[6, 4] = Rook.new("white", [6, 4], self)
+  #  place_pawns("white")
   end
 
   def place_non_pawns(color)
