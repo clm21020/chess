@@ -56,32 +56,39 @@ class Board
   end
 
   def find_king(color)
-    @grid.flatten.compact.find do |piece|
-      piece.class == King && piece.color == color
+    find_team(color).find do |piece|
+      piece.class == King
     end
   end
 
   def find_team(color)
-    @grid.flatten.compact.select do |piece|
+    find_all.select do |piece|
       piece.color == color
     end
   end
 
-  def move(start_pos, end_pos)
+  def find_all
+    @grid.flatten.compact
+  end
+
+  def move(start_pos, end_pos, player_color)
     piece = piece_at(start_pos)
-    check_error = ArgumentError.new("That move move would put you in check, idiot!")
+
+    no_piece_error = ArgumentError.new "You don't have a piece there"
+    wrong_color_error = ArgumentError.new "This is not your piece!"
+    invalid_move_error = ArgumentError.new "You can't move there!"
+    check_error = ArgumentError.new "That move move would put you in check, idiot!"
+
+    raise no_piece_error if piece.nil?
+    raise wrong_color_error unless player_color == piece.color
+    raise invalid_move_error unless piece.moves.include?(end_pos)
     raise check_error unless piece.valid_moves.include?(end_pos)
+
     move!(start_pos, end_pos)
   end
 
   def move!(start_pos, end_pos)
     piece = piece_at(start_pos)
-
-    no_piece_error = ArgumentError.new("You don't have a piece there")
-    invalid_move_error = ArgumentError.new("You can't move there!")
-
-    raise no_piece_error if piece.nil?
-    raise invalid_move_error unless piece.moves.include?(end_pos)
 
     self[start_pos[0], start_pos[1]] = nil
     self[end_pos[0], end_pos[1]] = piece
@@ -112,12 +119,6 @@ class Board
     end
 
     nil
-  end
-
-  def verify_piece_on_team?(player_color, start_pos)
-    unless player_color == color_of_piece_at(start_pos)
-      raise ArgumentError.new "This is not your piece!"
-    end
   end
 
   def piece_at(pos)

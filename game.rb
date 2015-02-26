@@ -15,8 +15,7 @@ class Game
 
       begin
         move = @current_player.play_turn
-        @board.verify_piece_on_team?(@current_player.color, move["start"])
-        @board.move(move["start"], move["end"])
+        @board.move(move["start"], move["end"], @current_player.color)
       rescue ArgumentError => e
         puts "Try again. #{e.message}"
         retry
@@ -30,3 +29,6 @@ class Game
     puts "#{@current_player.color} lost!"
   end
 end
+
+g = Game.new
+g.play
