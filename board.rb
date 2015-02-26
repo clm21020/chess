@@ -122,7 +122,7 @@ class Board
   end
 
   def piece_at(pos)
-    self[pos[0], pos[1]]
+    self[pos[0], pos[1]] if on_board?(pos)
   end
 
   def [](x, y)
