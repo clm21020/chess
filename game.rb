@@ -11,8 +11,11 @@ class Game
 
   def play
     until @board.checkmate?(@current_player.color)
+      @board.display
+
       begin
         move = @current_player.play_turn
+        @board.verify_piece_on_team?(@current_player.color, move["start"])
         @board.move(move["start"], move["end"])
       rescue ArgumentError => e
         puts "Try again. #{e.message}"
@@ -22,14 +25,8 @@ class Game
       @current_player = @current_player == @white ? @black : @white
     end
 
+    @board.display
+
     puts "#{@current_player.color} lost!"
-
-
-
-    # alternates between players
-    # prompting them to move/continuously calls play_turn
-    # handle exceptions from Board#move and report them.
   end
 end
-
-puts "♔"

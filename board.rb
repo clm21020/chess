@@ -15,7 +15,7 @@ class Board
     place_non_pawns("black")
     place_non_pawns("white")
     place_pawns("black")
-  #  place_pawns("white")
+    place_pawns("white")
   end
 
   def place_non_pawns(color)
@@ -112,6 +112,12 @@ class Board
     end
 
     nil
+  end
+
+  def verify_piece_on_team?(player_color, start_pos)
+    unless player_color == color_of_piece_at(start_pos)
+      raise ArgumentError.new "This is not your piece!"
+    end
   end
 
   def piece_at(pos)
